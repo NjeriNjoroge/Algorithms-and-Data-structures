@@ -94,6 +94,64 @@ public class LinkedLists {
         
         tail = newNode //set the tail to be the new item
     }
+    
+    /*
+     Accessing Nodes
+     */
+    public func nodeAt(index: Int) -> Node? {
+        //1 Added a check that the specified index is not negative. This prevents an infinite loop if the index is a negative value
+        if index >= 0 {
+            var node = head
+            var i = index
+            //2 Loop through the nodes until you reach the node at the specified index and return the node
+            while node != nil {
+                if i == 0 { return node }
+                i -= 1
+                node = node!.next
+            }
+        }
+        //3 If the index less than 0 or greater than the number of items in the list, then return nil
+        return nil
+    }
+    
+    /*
+     Remove all nodes
+     */
+    public func removeAll() {
+        head = nil
+        tail = nil
+    }
+    
+    /*
+     Remove individual nodes
+     */
+    public func remove(node: Node) -> String {
+        let prev = node.previous
+        let next = node.next
+        
+        if let prev = prev {
+            //1 Update the next pointer if you are not removing the first node in the list.
+            prev.next = next
+        } else {
+            //2 Update the head pointer if you are removing the first node in the list.
+            head = next
+        }
+        //3 Update the previous pointer to the previous pointer of the deleted node.
+        next?.previous = prev
+        
+        //4 Update the tail if you are removing the last node in the list.
+        if next == nil {
+            tail = prev
+        }
+        
+        //5 Assign nil to the removed nodes previous and next pointers.
+        node.previous = nil
+        node.next = nil
+        
+        //6 Return the value for the removed node.
+        return node.value
+    }
+    
 }
 
 /*
