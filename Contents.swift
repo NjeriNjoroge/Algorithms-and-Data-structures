@@ -181,3 +181,65 @@ dogBreeds.append(value: "Beagle")
 dogBreeds.append(value: "Husky")
 
 print(dogBreeds)
+
+
+
+/* Trees
+ */
+
+class TreeNode {
+    var value: String
+    var children: [TreeNode] = [] //declare childres as an array of nodes
+    weak var parent: TreeNode? //parent property is optional bcoz not all nodes have parents and also to avoid retain cycles
+    
+    init(value: String) {
+        self.value = value
+    }
+    
+    //handling insertion to the tree
+    func add(child: TreeNode) {
+        children.append(child)
+        child.parent = self
+    }
+    
+}
+
+//printing the tree objects
+extension TreeNode: CustomStringConvertible {
+    var description: String {
+        var text = "\(value)"
+        
+        if !children.isEmpty {
+            text += " {" + children.map {$0.description}.joined(separator: ", ") + "} "
+        }
+        return text
+    }
+}
+
+
+/* Example */
+let beverages = TreeNode(value: "Beverages") //parent
+let hotBeverages = TreeNode(value: "hot")
+let coldBeverages = TreeNode(value: "cold")
+
+//children
+let hotTea = TreeNode(value: "tea")
+let hotCoffee = TreeNode(value: "coffee")
+let hotCocoa = TreeNode(value: "cocoa")
+
+let coldSoda = TreeNode(value: "soda")
+let coldMilk = TreeNode(value: "milk")
+
+beverages.add(child: hotBeverages)
+beverages.add(child: coldBeverages)
+
+hotBeverages.add(child: hotTea)
+hotBeverages.add(child: hotCoffee)
+hotBeverages.add(child: hotCocoa)
+
+coldBeverages.add(child: coldSoda)
+coldBeverages.add(child: coldMilk)
+
+print(beverages)
+
+/* Search */
