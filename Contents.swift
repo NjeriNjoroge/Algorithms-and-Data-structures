@@ -189,7 +189,7 @@ print(dogBreeds)
 
 class TreeNode {
     var value: String
-    var children: [TreeNode] = [] //declare childres as an array of nodes
+    var children: [TreeNode] = [] //declare children as an array of nodes
     weak var parent: TreeNode? //parent property is optional bcoz not all nodes have parents and also to avoid retain cycles
     
     init(value: String) {
@@ -242,4 +242,38 @@ coldBeverages.add(child: coldMilk)
 
 print(beverages)
 
-/* Search */
+/* Stack */
+//declared a Stack with an array property in it
+struct Stack {
+  fileprivate var array = [Int]()
+  
+  public var isEmpty: Bool {
+    return array.isEmpty
+  }
+  
+  public var count: Int {
+    return array.count
+  }
+  
+  //pushing
+  public mutating func push(_ element: Int) {
+    array.append(element)
+  }
+  
+  //popping
+  public mutating func pop() -> Int? {
+    return array.popLast()
+  }
+  
+  //peeking. Mutating keyword isnt used because peeking avoids mutating the contents of the array
+  public func peek() -> Int? {
+    return array.last
+  }
+  
+}
+
+var newBookStackCount = Stack()
+newBookStackCount.push(12)
+newBookStackCount.push(57)
+newBookStackCount.peek()
+newBookStackCount.pop()
