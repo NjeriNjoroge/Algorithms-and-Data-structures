@@ -277,3 +277,154 @@ newBookStackCount.push(12)
 newBookStackCount.push(57)
 newBookStackCount.peek()
 newBookStackCount.pop()
+
+/* Queue */
+struct Queue {
+  fileprivate var array = [String]()
+  
+  public var isEmpty: Bool {
+    return array.isEmpty
+  }
+  
+  public var count: Int {
+    return array.count
+  }
+  
+  public mutating func enqueue(_ element: String) {
+    array.append(element)
+  }
+  
+  public mutating func dequeue() -> String? {
+    if isEmpty {
+      return nil
+    } else {
+      return array.removeFirst()
+    }
+  }
+  
+  public var front: String? {
+    return array.first
+  }
+  
+}
+
+var anotherBookStack = Queue()
+anotherBookStack.enqueue("book")
+anotherBookStack.enqueue("are")
+anotherBookStack.enqueue("awesome")
+anotherBookStack.dequeue()
+print(anotherBookStack)
+
+
+/* Set */
+//The reason we use a dictionary is that dictionary keys must be unique, just like the elements from a set
+//a dictionary has O(1) time complexity for most of its operations, making this set implementation very fast.
+//Because we're using a dictionary, the generic type T must conform to Hashable. You can put any type of object into our set, as long as it can be hashed.
+public struct HashSet<T: Hashable> {
+  fileprivate var dictionary = Dictionary<T, Bool>()
+  
+  public init() {}
+  
+  public mutating func insert(_ element: T) {
+    dictionary[element] = true
+  }
+  
+  public mutating func remove(_ element: T) {
+    dictionary[element] = nil
+  }
+  
+  public mutating func contains(_ element: T) -> Bool {
+    return dictionary[element] != nil
+  }
+  
+  public mutating func allElements() -> [T] {
+    return Array(dictionary.keys)
+  }
+  
+  public var isEmpty: Bool {
+    return dictionary.isEmpty
+  }
+  
+  public var count: Int {
+    return dictionary.count
+  }
+  
+}
+
+var modernFamilyCharacters = HashSet<String>()
+modernFamilyCharacters.insert("Phil")
+modernFamilyCharacters.insert("Gloria")
+modernFamilyCharacters.insert("Haley")
+modernFamilyCharacters.insert("Joe")
+modernFamilyCharacters.remove("Joe")
+print(modernFamilyCharacters)
+modernFamilyCharacters.allElements()
+
+/* Combining Sets */
+//A lot of the usefulness of sets is in how you can combine them
+//The union of two sets creates a new set that consists of all the elements in set A plus all the elements in set B. Of course, if there are duplicate elements they count only once
+extension HashSet {
+  public func union(_ otherSet: HashSet<T>) -> HashSet<T> {
+    var combined = HashSet<T>()
+    for obj in self.dictionary.keys {
+      combined.insert(obj)
+    }
+    for obj in otherSet.dictionary.keys {
+      combined.insert(obj)
+    }
+    return combined
+  }
+}
+
+var setA = HashSet<Int>()
+setA.insert(1)
+setA.insert(2)
+setA.insert(3)
+setA.insert(4)
+
+var setB = HashSet<Int>()
+setB.insert(3)
+setB.insert(4)
+setB.insert(5)
+setB.insert(6)
+
+var union = setA.union(setB)
+union.allElements()
+
+/* Intersecting Sets */
+//The intersection of two sets contains only the elements that they have in common
+extension HashSet {
+  public func intersect(_ otherSet: HashSet<T>) -> HashSet<T> {
+    var common = HashSet<T>()
+    for obj in dictionary.keys {
+//      if otherSet.contains(obj) {
+//        common.insert(obj)
+//      }
+    }
+    return common
+  }
+}
+
+var intersection = setA.intersect(setB)
+intersection.allElements()
+
+
+/* Differences in sets */
+//the difference between two sets removes the elements they have in common
+extension HashSet {
+  public func difference(_ otherSet: HashSet<T>) -> HashSet<T> {
+    var diff = HashSet<T>()
+//    for obj in dictionary.keys {
+//      if !otherSet.contains(obj) {
+//        diff.insert(obj)
+//      }
+//    }
+    return diff
+  }
+}
+
+var difference1 = setA.difference(setB)
+difference1.allElements()                // [2, 1]
+
+var difference2 = setB.difference(setA)
+difference2.allElements()
