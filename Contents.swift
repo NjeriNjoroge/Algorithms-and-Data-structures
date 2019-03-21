@@ -190,7 +190,7 @@ print(dogBreeds)
 class TreeNode {
     var value: String
     var children: [TreeNode] = [] //declare children as an array of nodes
-    weak var parent: TreeNode? //parent property is optional bcoz not all nodes have parents and also to avoid retain cycles
+    weak var parent: TreeNode? //parent property is optional bcoz not all nodes have parents and also to avoid retain cycles its made weak
     
     init(value: String) {
         self.value = value
@@ -428,3 +428,27 @@ difference1.allElements()                // [2, 1]
 
 var difference2 = setB.difference(setA)
 difference2.allElements()
+
+/* Insertion Sort */
+struct InsertionSort {
+  public func insertionSort(_ array: [Int]) -> [Int] {
+    guard array.count > 1 else { return array }
+    var key = array //Make a copy of the array because we cannot modify the contents of the array parameter directly. The insertionSort() function will return a sorted copy of the original array
+    for i in 1..<array.count { //2
+      var y = i
+      while y > 0 && key[y] < key[y - 1] { //3
+        key.swapAt(y - 1, y)
+        y -= 1
+      }
+    }
+    return key
+  }
+}
+
+let list = [ 10, -1, 3, 9, 2, 27, 8, 5, 1, 3, 0, 26 ]
+var insertSort = InsertionSort()
+insertSort.insertionSort(list)
+
+//2 There are two loops inside this function. The outer loop looks at each of the elements in the array in turn; this is what picks the top-most number from the pile. The variable i is the index of where the sorted portion ends and the pile begins (the position of the | bar). Remember, at any given moment the beginning of the array -- from index 0 up to i -- is always sorted. The rest, from index i until the last element, is the unsorted pile. The outer loop starts at index 1, not 0. Moving the very first element from the pile to the sorted portion doesn't actually change anything, so we might as well skip it
+
+//3 The inner loop looks at the element at position i. This is the number at the top of the pile, and it may be smaller than any of the previous elements. The inner loop steps backwards through the sorted array; every time it finds a previous number that is larger, it swaps them. When the inner loop completes, the beginning of the array is sorted again, and the sorted portion has grown by one element
